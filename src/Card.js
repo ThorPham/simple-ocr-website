@@ -7,29 +7,44 @@ import pointInPolygon from "point-in-polygon";
 import ReactJson from "react-json-view";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; //
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import Upload from "./Upload";
+import Loading from "./Loading";
+import { v4 as uuid } from "uuid";
 export default function Card() {
   const [demo, setDemo] = useState(dataDemo[0]);
-  const [imgActive, setImgActive] = useState("001");
+  const [loading, setLoading] = useState(false);
+  const [imgActive, setImgActive] = useState("0001");
   const canvas = useRef();
   const dataCanvas = convert2Polygon(demo["data"]);
   const [elementActive, setElementActive] = useState("");
   const [visible, setVisible] = useState(false);
+  const [imgCanvas, setImgCanvas] = useState(dataDemo[0].src);
+  const [img, setImg] = useState();
+  const [response, setResponse] = useState({ data: "" });
+
   const resultShow = [
-    { id: "01", title: "json" },
     { id: "02", title: "Text" },
+    { id: "01", title: "json" },
   ];
-  const [showType, setShowType] = useState("json");
+  const [showType, setShowType] = useState("Text");
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
+  const { metaData, polygonPoints, texts } = dataCanvas;
+  const { width, height } = metaData;
+  console.log("loading", loading);
   const handleCopy = () => {
     setVisible(!visible);
-    navigator.clipboard.writeText(JSON.stringify(demo["data"]));
+    let copytext = showType === "json" ? JSON.stringify(demo["data"]) : texts;
+    navigator.clipboard.writeText(copytext);
   };
-  const { metaData, polygonPoints,texts } = dataCanvas;
-  const { width, height } = metaData;
+  useEffect(() => {
+    if (response.data) {
+      setDemo(response);
+      setImgCanvas(img);
+    }
+  }, [response]);
 
-  const getCanvas = () => {
+  const getCanvas = async () => {
     canvas.current.width = width;
     canvas.current.height = height;
     const ctx = canvas.current.getContext("2d");
@@ -50,6 +65,7 @@ export default function Card() {
         ctx.closePath();
       });
     }
+    
     canvas.current.addEventListener("click", (e) => {
       const rect = canvas.current.getBoundingClientRect();
       const position = [e.clientX - rect.left, e.clientY - rect.top];
@@ -82,31 +98,37 @@ export default function Card() {
         }
       });
     });
+
   };
   useEffect(() => {
+
     getCanvas();
+    
+    
   });
 
   const handleClick = (item) => {
     setDemo(item);
     setImgActive(item.id);
+    setImgCanvas(dataDemo.filter((data) => data.id === item.id)[0].src);
   };
   return (
     <div className="card-container">
       <div style={{ margin: "2rem auto" }}>
-        <p>Basic model that can recognize Korean and English.</p>
+        <p>Basic model that can recognize Vietnamese and English.</p>
         <p>
           It extracts text accurately even in images with severe distortion or
-          complexity, and has excellent handwriting recognition.
+          complexity, and has excellent printing recognition.
         </p>
       </div>
       <div className="card-ocr">
+        {loading && <Loading />}
         <div className="card-ocr-left" style={{ position: "relative" }}>
           <canvas
             id="canvas"
             ref={canvas}
             style={{
-              backgroundImage: `url(${demo.src})`,
+              backgroundImage: `url(${imgCanvas})`,
               backgroundSize: "contain",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center center",
@@ -162,21 +184,34 @@ export default function Card() {
             className="card-right-header"
             style={{ position: "sticky", top: "0", flex: "1" }}
           >
-            <ul style={{ backgroundColor: "#fff" ,display:"flex"}}>
-              {resultShow.map(item=>{
-                 return <li style={{flex:"1"}} key={item.id} onClick={()=>setShowType(item.title)} className={item.title===showType ? "active-show" : ""} >{item.title}</li>
+            <ul style={{ backgroundColor: "#fff", display: "flex" }}>
+              {resultShow.map((item) => {
+                return (
+                  <li
+                    style={{ flex: "1" }}
+                    key={item.id}
+                    onClick={() => setShowType(item.title)}
+                    className={item.title === showType ? "active-show" : ""}
+                  >
+                    {item.title}
+                  </li>
+                );
               })}
             </ul>
           </div>
           <div
             style={{ overflow: "scroll", flex: "5", maxHeight: `${height}px` }}
           >
-           {showType === "json" ?  <ReactJson
-              src={demo["data"]}
-              displayDataTypes={false}
-              displayObjectSize={false}
-              theme={"apathy:inverted"}
-            /> : <Text texts={texts} />}
+            {showType === "json" ? (
+              <ReactJson
+                src={demo["data"]}
+                displayDataTypes={false}
+                displayObjectSize={false}
+                theme={"apathy:inverted"}
+              />
+            ) : (
+              <Text texts={texts} />
+            )}
           </div>
           <div
             className="card-right-btn"
@@ -216,7 +251,13 @@ export default function Card() {
                 ></i>
               </Tippy>
             </div>
-            <div style={{ width: "20%", textAlign: "center" }}>Upload</div>
+            <div style={{ width: "20%", textAlign: "center", height: "100%" }}>
+              <Upload
+                setImg={setImg}
+                setResponse={setResponse}
+                setLoading={setLoading}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -224,11 +265,16 @@ export default function Card() {
   );
 }
 
-
-const Text = ({texts}) =>{
-   return <div style={{backgroundColor:"rgb(218, 255, 255)"}}>
-      {texts.map(item=>{
-         return <p key={item} style={{textIndent : "5px",lineHeight : "1.6"}}>{item}</p>
+const Text = ({ texts }) => {
+  return (
+    <div style={{ backgroundColor: "rgb(218, 255, 255)" }}>
+      {texts.map((item) => {
+        return (
+          <p key={uuid()} style={{ textIndent: "5px", lineHeight: "1.6" }}>
+            {item}
+          </p>
+        );
       })}
-   </div>
-}
+    </div>
+  );
+};

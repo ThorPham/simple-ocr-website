@@ -6,6 +6,9 @@
   "dependencies": {
     "@floating-ui/react-dom": "^0.6.1",
     "@floating-ui/react-dom-interactions": "^0.0.15",
+    "@rpldy/upload-button": "^0.18.1",
+    "@rpldy/uploader": "^0.18.1",
+    "@rpldy/uploady": "^0.18.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -16,7 +19,9 @@
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^18.0.0",
     "react-json-view": "^1.21.3",
+    "react-loader-spinner": "^6.0.0-0",
     "react-scripts": "5.0.0",
+    "uuidv4": "^6.2.13",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -26,7 +31,6 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-    
   },
   "eslintConfig": {
     "extends": [
