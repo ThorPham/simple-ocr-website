@@ -1,6 +1,7 @@
 {
   "name": "tooltip",
   "version": "0.1.0",
+  "homepage": "https://thorpham.github.io/simple-ocr-website",
   "private": true,
   "dependencies": {
     "@floating-ui/react-dom": "^0.6.1",
@@ -24,8 +25,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "homepage": "https://github.com/ThorPham/simple-ocr-website"
+    "deploy": "gh-pages -d build"
+    
   },
   "eslintConfig": {
     "extends": [
