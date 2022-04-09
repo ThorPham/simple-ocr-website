@@ -26,3 +26,10 @@ body{
 .active{
   display : inline-block !important;
 }
+.dz-ui-header{
+  font-size :1.2rem !important;
+  margin-top : 5px !important;
+}
+.dz-ui-header span svg{
+  fill : rgba(32, 191, 107,1.0) !important;
+}

@@ -10,6 +10,7 @@ import "tippy.js/dist/tippy.css"; //
 import Upload from "./Upload";
 import Loading from "./Loading";
 import { v4 as uuid } from "uuid";
+import LoadImg from "./LoadImg"
 export default function Card() {
   // const [drawCanvas,setDrawCanvas] = useState(false)
   
@@ -29,7 +30,6 @@ export default function Card() {
   const hide = () => setVisible(false);
   const [demo, setDemo] = useState(dataDemo[0]);
   const dataCanvas= convert2Polygon(demo["data"])
- 
   
 
   useEffect(() => {
@@ -38,7 +38,6 @@ export default function Card() {
   },[demo]);
   
   const getCanvas = async () => {
-    console.log("run again")
     const { metaData, polygonPoints } = dataCanvas
     const { width, height } = metaData;  
     canvas.current.width = width;
@@ -111,6 +110,7 @@ export default function Card() {
   };
   return (
     <div className="card-container">
+    
       {loading && <Loading />}
       <div style={{ margin: "2rem auto" }}>
         <p>Basic model that can recognize Vietnamese and English.</p>
@@ -119,7 +119,8 @@ export default function Card() {
           complexity, and has excellent printing recognition.
         </p>
       </div>
-      <div className="card-ocr">
+      <LoadImg setDemo={setDemo} setImgCanvas={setImgCanvas}/>
+      <div className="card-ocr" style={{marginTop:"1rem"}}>
         <div className="card-ocr-left" style={{ position: "relative" }}>
           <canvas
             id="canvas"
@@ -223,7 +224,7 @@ export default function Card() {
                 height: "100%",
                 border: "1px solid #ddd",
                 display: "flex",
-                justifyContent: "center",
+                // justifyContent: "center",
                 alignContent: "center",
                 backgroundColor: "#2ed573",
               }}
@@ -248,14 +249,14 @@ export default function Card() {
                 ></i>
               </Tippy>
             </div>
-            <div style={{ width: "20%", textAlign: "center", height: "100%" }}>
+            {/* <div style={{ width: "20%", textAlign: "center", height: "100%" }}>
               <Upload
                 loading={loading}
                 setLoading={setLoading}
                 setDemo={setDemo}
                 setImgCanvas={setImgCanvas}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

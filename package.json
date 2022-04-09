@@ -4,6 +4,7 @@
   "homepage": "https://thorpham.github.io/simple-ocr-website",
   "private": true,
   "dependencies": {
+    "@dropzone-ui/react": "^6.7.1",
     "@floating-ui/react-dom": "^0.6.1",
     "@floating-ui/react-dom-interactions": "^0.0.15",
     "@rpldy/upload-button": "^0.18.1",
@@ -13,6 +14,7 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@tippyjs/react": "^4.2.6",
+    "axios": "^0.24.0",
     "buffer": "^6.0.3",
     "gh-pages": "^3.2.3",
     "point-in-polygon": "^1.1.0",
