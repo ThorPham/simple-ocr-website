@@ -1,5 +1,6 @@
 .card-container{
    padding : 10px;
+   position: relative;
 }
 
 .card-ocr{

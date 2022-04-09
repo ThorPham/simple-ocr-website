@@ -1,6 +1,6 @@
 import React from "react";
 import "./Card.css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect ,useMemo,useCallback} from "react";
 import dataDemo from "./data";
 import { convert2Polygon } from "./utils";
 import pointInPolygon from "point-in-polygon";
@@ -11,16 +11,14 @@ import Upload from "./Upload";
 import Loading from "./Loading";
 import { v4 as uuid } from "uuid";
 export default function Card() {
-  const [demo, setDemo] = useState(dataDemo[0]);
+  // const [drawCanvas,setDrawCanvas] = useState(false)
+  
   const [loading, setLoading] = useState(false);
   const [imgActive, setImgActive] = useState("0001");
   const canvas = useRef();
-  const dataCanvas = convert2Polygon(demo["data"]);
   const [elementActive, setElementActive] = useState("");
   const [visible, setVisible] = useState(false);
   const [imgCanvas, setImgCanvas] = useState(dataDemo[0].src);
-  const [img, setImg] = useState();
-  const [response, setResponse] = useState({ data: "" });
 
   const resultShow = [
     { id: "02", title: "Text" },
@@ -29,24 +27,23 @@ export default function Card() {
   const [showType, setShowType] = useState("Text");
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
-  const { metaData, polygonPoints, texts } = dataCanvas;
-  const { width, height } = metaData;
-  console.log("loading", loading);
-  const handleCopy = () => {
-    setVisible(!visible);
-    let copytext = showType === "json" ? JSON.stringify(demo["data"]) : texts;
-    navigator.clipboard.writeText(copytext);
-  };
-  useEffect(() => {
-    if (response.data) {
-      setDemo(response);
-      setImgCanvas(img);
-    }
-  }, [response]);
+  const [demo, setDemo] = useState(dataDemo[0]);
+  const dataCanvas= convert2Polygon(demo["data"])
+ 
+  
 
+  useEffect(() => {
+    getCanvas();
+
+  },[demo]);
+  
   const getCanvas = async () => {
+    console.log("run again")
+    const { metaData, polygonPoints } = dataCanvas
+    const { width, height } = metaData;  
     canvas.current.width = width;
     canvas.current.height = height;
+    canvas.current.style.backgroundImage = `url(${imgCanvas}`
     const ctx = canvas.current.getContext("2d");
 
     if (ctx) {
@@ -61,7 +58,7 @@ export default function Card() {
         ctx.closePath();
         ctx.stroke();
         ctx.fillStyle = "rgba(232, 65, 24,0.2)";
-        //   ctx.fill();
+          // ctx.fill();
         ctx.closePath();
       });
     }
@@ -100,12 +97,12 @@ export default function Card() {
     });
 
   };
-  useEffect(() => {
-
-    getCanvas();
-    
-    
-  });
+  
+  const handleCopy = () => {
+    setVisible(!visible);
+    let copytext = showType === "json" ? JSON.stringify(demo["data"]) : dataCanvas["texts"];
+    navigator.clipboard.writeText(copytext);
+  };
 
   const handleClick = (item) => {
     setDemo(item);
@@ -114,6 +111,7 @@ export default function Card() {
   };
   return (
     <div className="card-container">
+      {loading && <Loading />}
       <div style={{ margin: "2rem auto" }}>
         <p>Basic model that can recognize Vietnamese and English.</p>
         <p>
@@ -122,13 +120,12 @@ export default function Card() {
         </p>
       </div>
       <div className="card-ocr">
-        {loading && <Loading />}
         <div className="card-ocr-left" style={{ position: "relative" }}>
           <canvas
             id="canvas"
             ref={canvas}
             style={{
-              backgroundImage: `url(${imgCanvas})`,
+              // backgroundImage: `url(${imgCanvas})`,
               backgroundSize: "contain",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center center",
@@ -136,7 +133,7 @@ export default function Card() {
           >
             Browser not support
           </canvas>
-          {polygonPoints.map((item) => {
+          {dataCanvas["polygonPoints"].map((item) => {
             return (
               <span
                 key={item.id}
@@ -200,7 +197,7 @@ export default function Card() {
             </ul>
           </div>
           <div
-            style={{ overflow: "scroll", flex: "5", maxHeight: `${height}px` }}
+            style={{ overflow: "scroll", flex: "5", maxHeight: `${dataCanvas["metaData"].height}px` }}
           >
             {showType === "json" ? (
               <ReactJson
@@ -210,7 +207,7 @@ export default function Card() {
                 theme={"apathy:inverted"}
               />
             ) : (
-              <Text texts={texts} />
+              <Text texts={dataCanvas["texts"]} />
             )}
           </div>
           <div
@@ -253,9 +250,10 @@ export default function Card() {
             </div>
             <div style={{ width: "20%", textAlign: "center", height: "100%" }}>
               <Upload
-                setImg={setImg}
-                setResponse={setResponse}
+                loading={loading}
                 setLoading={setLoading}
+                setDemo={setDemo}
+                setImgCanvas={setImgCanvas}
               />
             </div>
           </div>

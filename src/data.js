@@ -9,7 +9,7 @@ import thumail2 from './assets/thumbnail_example_4.jpg'
 import thumail3 from './assets/thumbnail_example_6.jpg'
 import thumail4 from './assets/thumbnail_example_8.jpg'
 import thumail5 from './assets/thumbnail_example_2.jpg'
-
+import example6 from './assets/test1.jpg'
 
 const dataDemo =[{
     id : "0001",
