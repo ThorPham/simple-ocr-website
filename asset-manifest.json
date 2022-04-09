@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/simple-ocr-website/static/css/main.09e4493b.css",
-    "main.js": "/simple-ocr-website/static/js/main.7b1b5006.js",
+    "main.css": "/simple-ocr-website/static/css/main.be19c118.css",
+    "main.js": "/simple-ocr-website/static/js/main.12968748.js",
     "static/js/787.3cbf1b22.chunk.js": "/simple-ocr-website/static/js/787.3cbf1b22.chunk.js",
+    "static/media/test1.jpg": "/simple-ocr-website/static/media/test1.1b3e4ceddac65d0c4bd5.jpg",
     "static/media/image_example_6.jpg": "/simple-ocr-website/static/media/image_example_6.64b3288d6f37254ac2de.jpg",
     "static/media/image_example_2.jpg": "/simple-ocr-website/static/media/image_example_2.fd76739374d66c87e03c.jpg",
     "static/media/image_example_8.jpg": "/simple-ocr-website/static/media/image_example_8.e48e38857acbad99d57f.jpg",
@@ -10,12 +11,12 @@
     "static/media/image_example_3.jpg": "/simple-ocr-website/static/media/image_example_3.88a776b5e6de74d18d24.jpg",
     "static/media/thumbnail_example_6.jpg": "/simple-ocr-website/static/media/thumbnail_example_6.25dea4e2be546385f3ae.jpg",
     "index.html": "/simple-ocr-website/index.html",
-    "main.09e4493b.css.map": "/simple-ocr-website/static/css/main.09e4493b.css.map",
-    "main.7b1b5006.js.map": "/simple-ocr-website/static/js/main.7b1b5006.js.map",
+    "main.be19c118.css.map": "/simple-ocr-website/static/css/main.be19c118.css.map",
+    "main.12968748.js.map": "/simple-ocr-website/static/js/main.12968748.js.map",
     "787.3cbf1b22.chunk.js.map": "/simple-ocr-website/static/js/787.3cbf1b22.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.09e4493b.css",
-    "static/js/main.7b1b5006.js"
+    "static/css/main.be19c118.css",
+    "static/js/main.12968748.js"
   ]
 }
